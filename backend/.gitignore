@@ -1,0 +1,9 @@
+.env
+__pycache__/
+.venv/
+venv/
+uploads/
+
+checkpoints.db
+checkpoints.db-shm
+checkpoints.db-wal

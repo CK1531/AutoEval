@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+psycopg2-binary
+pydantic[email]
+sqlalchemy
+pwdlib[argon2]
+PyJWT
+python-multipart
+pymupdf
+python-dotenv
+langchain
+langchain-google-genai
+langchain-openai
+langgraph
+langgraph-checkpoint-sqlite
+scikit-learn
+numpy
