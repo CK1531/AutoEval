@@ -478,10 +478,10 @@ export default function Register() {
         >
           <div style={S.cardLogoRow}>
             <IconLogo />
-            <span style={S.cardLogoText}>GradeOps</span>
+            <span style={S.cardLogoText}>AutoEval</span>
           </div>
 
-          <h1 style={S.heading}>Join GradeOps.</h1>
+          <h1 style={S.heading}>Join AutoEval.</h1>
           <p style={S.subtext}>Create your account to access the grading pipeline.</p>
 
           <form onSubmit={handleSubmit} noValidate>

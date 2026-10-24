@@ -276,7 +276,7 @@ function ExamListView({ exams, loading, onSelect, onLogout }) {
           <div style={{ width: 30, height: 30, borderRadius: 8, background: T.cyan, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 16px ${T.cyanGlow}` }}>
             <span style={{ color: T.bg, fontSize: 16, fontWeight: 800, lineHeight: 1 }}>→</span>
           </div>
-          <span style={{ fontSize: 16, fontWeight: 700, color: T.text1, letterSpacing: "-0.02em" }}>GradeOps</span>
+          <span style={{ fontSize: 16, fontWeight: 700, color: T.text1, letterSpacing: "-0.02em" }}>AutoEval</span>
           <span style={{ fontFamily: "Geist Mono, monospace", fontSize: 9, fontWeight: 700, color: T.cyan, background: T.cyanDim, borderRadius: 4, padding: "2px 6px", letterSpacing: "0.08em" }}>BETA</span>
         </div>
         <button
