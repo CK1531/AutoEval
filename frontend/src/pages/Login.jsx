@@ -401,7 +401,7 @@ export default function Login() {
                         animate="visible"
                     >
                         <IconLogo />
-                        <span style={S.logoText}>GradeOps</span>
+                        <span style={S.logoText}>AutoEval</span>
                     </motion.div>
 
                     <div style={S.calloutsWrap}>
@@ -440,7 +440,7 @@ export default function Login() {
                 >
                     <div style={S.cardLogoRow}>
                         <IconLogo />
-                        <span style={S.cardLogoText}>GradeOps</span>
+                        <span style={S.cardLogoText}>AutoEval</span>
                     </div>
 
                     <AnimatePresence>
@@ -582,7 +582,7 @@ export default function Login() {
                     </div>
 
                     <div style={S.registerRow}>
-                        New to GradeOps?{" "}
+                        New to AutoEval?{" "}
                         <motion.button
                             type="button"
                             style={S.registerLink}

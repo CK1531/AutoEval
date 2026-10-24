@@ -266,7 +266,7 @@ function SidebarContent({ collapsed, activeRoute, onNavigate, onClose }) {
                   letterSpacing: "-0.02em",
                   whiteSpace: "nowrap",
                 }}>
-                  GradeOps
+                  AutoEval
                 </span>
                 <span style={{
                   fontSize: "10px",

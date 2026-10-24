@@ -42,7 +42,7 @@ function Nav({ onAuth }) {
               <path d="M2 6.5h9M6.5 2l4.5 4.5L6.5 11" stroke={T.bg} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <span style={{ fontSize: 15, fontWeight: 700, color: T.text1, letterSpacing: "-0.025em" }}>GradeOps</span>
+          <span style={{ fontSize: 15, fontWeight: 700, color: T.text1, letterSpacing: "-0.025em" }}>AutoEval</span>
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
@@ -226,7 +226,7 @@ function Hero({ onAuth }) {
         <HeroPanel scrollRef={phase2Ref}>
           <div style={{ fontSize: 11, fontFamily: "Geist Mono, monospace", color: T.text3, letterSpacing: "0.1em", marginBottom: 28 }}>THE SOLUTION</div>
           <h2 style={{ fontSize: "clamp(52px,8vw,108px)", fontWeight: 900, lineHeight: 0.92, letterSpacing: "-0.048em", color: T.text1 }}>
-            Meet <span style={{ color: T.cyan, textShadow: `0 0 60px rgba(34,211,238,0.35)` }}>GradeOps.</span>
+            Meet <span style={{ color: T.cyan, textShadow: `0 0 60px rgba(34,211,238,0.35)` }}>AutoEval.</span>
           </h2>
         </HeroPanel>
       </section>
@@ -268,7 +268,7 @@ function TerminalVisual() {
     <div style={{ background: T.surface, border: `1px solid ${T.border}`, borderRadius: 14, overflow: "hidden", boxShadow: `0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)` }}>
       <div style={{ padding: "10px 16px", borderBottom: `1px solid ${T.border}`, display: "flex", alignItems: "center", gap: 7 }}>
         {["#ff5f57", "#febc2e", "#28c840"].map(c => <span key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c, opacity: 0.65 }} />)}
-        <span style={{ marginLeft: 8, fontFamily: "Geist Mono, monospace", fontSize: 11, color: T.text3 }}>gradeops-pipeline</span>
+        <span style={{ marginLeft: 8, fontFamily: "Geist Mono, monospace", fontSize: 11, color: T.text3 }}>autoeval-pipeline</span>
         <Dot color={T.emerald} />
       </div>
       <div style={{ padding: "14px 16px", display: "flex", flexDirection: "column", gap: 5 }}>
@@ -638,7 +638,7 @@ function AuthSection({ id }) {
           style={{ marginBottom: "clamp(48px,6vw,72px)", textAlign: "center" }}>
           <div style={{ fontFamily: "Geist Mono, monospace", fontSize: 11, color: T.cyan, letterSpacing: "0.1em", marginBottom: 14, opacity: 0.75 }}>ACCESS</div>
           <h2 style={{ fontSize: "clamp(28px,4vw,48px)", fontWeight: 900, letterSpacing: "-0.045em", color: T.text1, lineHeight: 1.04, marginBottom: 16 }}>
-            {mode === "login" ? "Welcome back." : "Join GradeOps."}
+            {mode === "login" ? "Welcome back." : "Join AutoEval."}
           </h2>
           <p style={{ fontSize: 15, color: T.text2, maxWidth: "46ch", margin: "0 auto", lineHeight: 1.72 }}>
             {mode === "login" ? "Your grading queue is waiting. Sign in to access the HITL review dashboard." : "Request beta access. Instructor accounts are verified against your institution."}
@@ -679,7 +679,7 @@ function AuthSection({ id }) {
                       {lLoading ? <LoadingSpinner /> : lOk ? "Signed in" : "Sign in"}
                     </motion.button>
                     <p style={{ textAlign: "center", fontSize: 13, color: T.text3, marginTop: 6 }}>
-                      New to GradeOps?{" "}
+                      New to AutoEval?{" "}
                       <button type="button" onClick={() => switchMode("register")} style={{ background: "none", border: "none", color: T.cyan, cursor: "pointer", fontSize: 13, fontFamily: "Geist, sans-serif", padding: 0, fontWeight: 500 }}>Register here</button>
                     </p>
                   </motion.form>
@@ -747,7 +747,7 @@ function Footer() {
           <div style={{ width: 22, height: 22, background: T.cyan, borderRadius: 5, display: "grid", placeItems: "center" }}>
             <svg width="11" height="11" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M6.5 2l4.5 4.5L6.5 11" stroke={T.bg} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </div>
-          <span style={{ fontSize: 13, fontWeight: 700, color: T.text1, letterSpacing: "-0.02em" }}>GradeOps</span>
+          <span style={{ fontSize: 13, fontWeight: 700, color: T.text1, letterSpacing: "-0.02em" }}>AutoEval</span>
           <span style={{ fontSize: 11, fontFamily: "Geist Mono, monospace", color: T.text3 }}>© 2025</span>
         </div>
         <div style={{ display: "flex", gap: 24 }}>
