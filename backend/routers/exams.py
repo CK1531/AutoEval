@@ -113,10 +113,16 @@ async def get_exams_to_grade(
     current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
+    if current_user.role != "ta":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only TAs can view exams to grade",
+        )
+
     exam_ids = [
         row[0]
         for row in db.query(models.Submission.exam_id)
-        .filter(models.Submission.status == "pending_review")
+        .filter(models.Submission.status.in_(["processing", "pending_review"]))
         .distinct()
         .all()
     ]

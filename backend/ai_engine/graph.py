@@ -1,3 +1,11 @@
+import socket
+
+# Prefer IPv4 to avoid IPv6 route blackholing/timeouts on Google API calls
+_orig_getaddrinfo = socket.getaddrinfo
+def _getaddrinfo_ipv4(host, port, family=0, type=0, proto=0, flags=0):
+    return _orig_getaddrinfo(host, port, socket.AF_INET, type, proto, flags)
+socket.getaddrinfo = _getaddrinfo_ipv4
+
 import asyncio
 import os
 import base64
@@ -16,6 +24,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 from pydantic import BaseModel, Field
+from ml_model.grading_reliability import enrich_question_with_metrics
 
 
 # PYDANTIC MODELS
@@ -140,7 +149,16 @@ async def run_nemotron_ocr_node(state: GradingState):
                 )
 
                 response = await gemini_vlm.ainvoke([message])
-                return f"\n\n--- Page {index+1} ---\n\n{response.content}"
+                if isinstance(response.content, str):
+                    page_text = response.content
+                elif isinstance(response.content, list):
+                    page_text = "".join(
+                        part.get("text", "") if isinstance(part, dict) else str(part)
+                        for part in response.content
+                    )
+                else:
+                    page_text = str(response.content)
+                return f"\n\n--- Page {index+1} ---\n\n{page_text}"
 
             except Exception as e:
                 print(f"Error reading and processing {img_path}: {e}")
@@ -224,13 +242,29 @@ def grade_with_gemini_model(state: GradingState):
         return {"status": "error_grading"}
 
 
+
+def calculate_metrics_and_ml_node(state: GradingState):
+    """Add metrics and an experimental ML recommendation before TA review."""
+    analysis = state.get("detailed_analysis") or {}
+    questions = analysis.get("questions", [])
+    enriched_questions = [enrich_question_with_metrics(q) for q in questions]
+    return {
+        "detailed_analysis": {
+            **analysis,
+            "questions": enriched_questions,
+        }
+    }
+
+
 builder = StateGraph(GradingState)
 
 builder.add_node("nemotron_ocr", run_nemotron_ocr_node)
 builder.add_node("gemini_grader", grade_with_gemini_model)
+builder.add_node("calculate_metrics_and_ml", calculate_metrics_and_ml_node)
 builder.add_node("human_intervention", human_intervention_decider)
 
 builder.set_entry_point("nemotron_ocr")
 builder.add_edge("nemotron_ocr", "gemini_grader")
-builder.add_edge("gemini_grader", "human_intervention")
+builder.add_edge("gemini_grader", "calculate_metrics_and_ml")
+builder.add_edge("calculate_metrics_and_ml", "human_intervention")
 builder.add_edge("human_intervention", END)

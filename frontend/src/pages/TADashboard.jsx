@@ -740,6 +740,72 @@ export default function TADashboard() {
                             <div style={{ fontSize: 13, color: T.text2, lineHeight: 1.65, marginBottom: 16, padding: "12px 14px", background: T.surface, borderRadius: 8, border: `1px solid ${T.border}` }}>
                               {selectedItem.aiJustification}
                             </div>
+
+                            {/* Experimental ML recommendation: informational only; TA approval is still required. */}
+                            <div style={{ marginBottom: 16, padding: 14, background: T.surface, border: `1px solid ${T.borderMid}`, borderRadius: 10 }}>
+                              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
+                                <div style={{ fontFamily: "Geist Mono, monospace", fontSize: 11, color: T.text1, fontWeight: 700, letterSpacing: "0.06em" }}>ML REVIEW RECOMMENDATION</div>
+                                <span style={{ fontFamily: "Geist Mono, monospace", fontSize: 10, fontWeight: 700, color: T.amber || "#f59e0b", background: "rgba(245,158,11,0.10)", borderRadius: 4, padding: "3px 7px" }}>EXPERIMENTAL</span>
+                              </div>
+                              {selectedItem.mlReview?.status === "experimental" ? (
+                                <>
+                                  <div style={{ fontSize: 14, fontWeight: 700, color: selectedItem.mlReview.needsReview ? "#f59e0b" : T.emerald, marginBottom: 6 }}>
+                                    {selectedItem.mlReview.needsReview ? "Additional review recommended" : "No additional review flagged"}
+                                  </div>
+                                  <div style={{ fontSize: 12, color: T.text2, lineHeight: 1.6, marginBottom: 10 }}>
+                                    This is an experimental signal trained on synthetic data. It must not determine or finalize marks. Continue the normal TA review for every answer.
+                                  </div>
+                                  <div style={{ display: "flex", gap: 18, flexWrap: "wrap", fontFamily: "Geist Mono, monospace", fontSize: 11, color: T.text3 }}>
+                                    <span>Feature availability: {selectedItem.mlReview.featureCoveragePct ?? 0}%</span>
+                                    <span>Review probability: {selectedItem.mlReview.reviewProbabilityPct == null ? "Unavailable" : `${selectedItem.mlReview.reviewProbabilityPct}%`}</span>
+                                  </div>
+                                  {selectedItem.mlReview.missingFeatures?.length > 0 && (
+                                    <div style={{ marginTop: 8, fontSize: 11, color: T.text3, lineHeight: 1.5 }}>
+                                      Not measured yet: {selectedItem.mlReview.missingFeatures.join(", ")}
+                                    </div>
+                                  )}
+                                </>
+                                                            ) : (
+                                <>
+                                  <div style={{ fontSize: 12, color: T.text2, lineHeight: 1.6 }}>
+                                    {selectedItem.mlReview?.recommendation || "ML recommendation unavailable"}. The existing TA review workflow is unchanged.
+                                  </div>
+
+                                  {selectedItem.mlReview?.featureCoveragePct != null && (
+                                    <div style={{ marginTop: 8, fontFamily: "Geist Mono, monospace", fontSize: 11, color: T.text3 }}>
+                                      Feature availability: {selectedItem.mlReview.featureCoveragePct}%
+                                    </div>
+                                  )}
+
+                                  {selectedItem.mlReview?.missingFeatures?.length > 0 && (
+                                    <div style={{ marginTop: 6, fontSize: 11, color: T.text3, lineHeight: 1.5 }}>
+                                      Not measured yet: {selectedItem.mlReview.missingFeatures.join(", ")}
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                              {selectedItem.gradingMetrics && (
+                                <div style={{ marginTop: 12, paddingTop: 10, borderTop: `1px solid ${T.border}` }}>
+                                  <div style={{ fontFamily: "Geist Mono, monospace", fontSize: 10, color: T.text3, fontWeight: 700, marginBottom: 8 }}>CALCULATED METRICS</div>
+                                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(125px, 1fr))", gap: 8 }}>
+                                    {[
+                                      ["Score ratio", selectedItem.gradingMetrics.score_ratio_pct == null ? "Unavailable" : `${selectedItem.gradingMetrics.score_ratio_pct}%`],
+                                      ["Rubric coverage", selectedItem.gradingMetrics.rubric_coverage_pct == null ? "Unavailable" : `${selectedItem.gradingMetrics.rubric_coverage_pct}%`],
+                                      ["Partial-credit criteria", selectedItem.gradingMetrics.partial_credit_ratio_pct == null ? "Unavailable" : `${selectedItem.gradingMetrics.partial_credit_ratio_pct}%`],
+                                      ["Answer length", `${selectedItem.gradingMetrics.answer_length_chars ?? 0} chars`],
+                                      ["Gemini confidence", selectedItem.gradingMetrics.gemini_confidence_pct == null ? "Unavailable" : `${selectedItem.gradingMetrics.gemini_confidence_pct}%`],
+                                      ["Rubric score check", selectedItem.gradingMetrics.rubric_score_matches_ai_score == null ? "Unavailable" : (selectedItem.gradingMetrics.rubric_score_matches_ai_score ? "Consistent" : "Mismatch")],
+                                    ].map(([label, value]) => (
+                                      <div key={label} style={{ padding: "8px 9px", background: T.surfaceHigh, borderRadius: 6 }}>
+                                        <div style={{ fontSize: 10, color: T.text3, marginBottom: 4 }}>{label}</div>
+                                        <div style={{ fontFamily: "Geist Mono, monospace", fontSize: 12, color: T.text1, fontWeight: 700 }}>{value}</div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+
                             <div style={{ borderRadius: 8, border: `1px solid ${T.border}`, overflow: "hidden", marginBottom: selectedItem.similarityFlag ? 12 : 0 }}>
                               <div style={{ display: "grid", gridTemplateColumns: "1fr 50px 50px 80px", padding: "7px 12px", background: T.surfaceHigh, borderBottom: `1px solid ${T.border}` }}>
                                 {["Criterion", "Pts", "Max", "Status"].map((h) => (
