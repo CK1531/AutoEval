@@ -1,0 +1,61 @@
+{
+  "dataset_type": "synthetic_only",
+  "rows": 5000,
+  "features_used": [
+    "ocr_confidence_pct",
+    "image_quality_pct",
+    "rubric_coverage_pct",
+    "answer_completeness_pct",
+    "semantic_alignment_pct",
+    "equation_correctness_pct",
+    "diagram_coverage_pct",
+    "gemini_confidence_pct",
+    "ai_score_ratio",
+    "partial_credit_ratio_pct",
+    "answer_length_chars",
+    "missing_region_count",
+    "low_ocr_word_fraction"
+  ],
+  "label_column": "needs_review_label",
+  "label_definition": "Synthetic rule-generated label; not real teacher-verified ground truth.",
+  "accuracy_synthetic_test": 0.977,
+  "roc_auc_synthetic_test": 0.9795,
+  "classification_report": {
+    "0": {
+      "precision": 0.9850107066381156,
+      "recall": 0.9903121636167922,
+      "f1-score": 0.9876543209876543,
+      "support": 929.0
+    },
+    "1": {
+      "precision": 0.8636363636363636,
+      "recall": 0.8028169014084507,
+      "f1-score": 0.8321167883211679,
+      "support": 71.0
+    },
+    "accuracy": 0.977,
+    "macro avg": {
+      "precision": 0.9243235351372396,
+      "recall": 0.8965645325126215,
+      "f1-score": 0.9098855546544111,
+      "support": 1000.0
+    },
+    "weighted avg": {
+      "precision": 0.9763931282849913,
+      "recall": 0.977,
+      "f1-score": 0.9766111561683337,
+      "support": 1000.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      920,
+      9
+    ],
+    [
+      14,
+      57
+    ]
+  ],
+  "warning": "Synthetic metrics only; not real-world grading reliability."
+}

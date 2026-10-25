@@ -268,7 +268,7 @@ function TerminalVisual() {
     <div style={{ background: T.surface, border: `1px solid ${T.border}`, borderRadius: 14, overflow: "hidden", boxShadow: `0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)` }}>
       <div style={{ padding: "10px 16px", borderBottom: `1px solid ${T.border}`, display: "flex", alignItems: "center", gap: 7 }}>
         {["#ff5f57", "#febc2e", "#28c840"].map(c => <span key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c, opacity: 0.65 }} />)}
-        <span style={{ marginLeft: 8, fontFamily: "Geist Mono, monospace", fontSize: 11, color: T.text3 }}>AutoEval-pipeline</span>
+        <span style={{ marginLeft: 8, fontFamily: "Geist Mono, monospace", fontSize: 11, color: T.text3 }}>autoeval-pipeline</span>
         <Dot color={T.emerald} />
       </div>
       <div style={{ padding: "14px 16px", display: "flex", flexDirection: "column", gap: 5 }}>
