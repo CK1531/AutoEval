@@ -82,6 +82,34 @@ class QuestionGradingResult(BaseModel):
     status: str = Field(default="pending")
     timeAgo: str = Field(default="Just now")
     similarityFlag: Optional[SimilarityFlagData] = Field(default=None)
+    ocrConfidenceMeasured: Optional[float] = Field(
+        default=None,
+        description="Measured OCR confidence percentage (0-100). Leave null if unmeasured.",
+    )
+    imageQualityPct: Optional[float] = Field(
+        default=None,
+        description="Measured image quality percentage (0-100). Leave null if unmeasured.",
+    )
+    semanticAlignmentPct: Optional[float] = Field(
+        default=None,
+        description="Measured semantic alignment percentage (0-100). Leave null if unmeasured.",
+    )
+    equationCorrectnessPct: Optional[float] = Field(
+        default=None,
+        description="Measured equation correctness percentage (0-100). Leave null if unmeasured.",
+    )
+    diagramCoveragePct: Optional[float] = Field(
+        default=None,
+        description="Measured diagram coverage percentage (0-100). Leave null if unmeasured.",
+    )
+    missingRegionCount: Optional[int] = Field(
+        default=None,
+        description="Number of detected unread/missing regions. Leave null if unmeasured.",
+    )
+    lowOcrWordFraction: Optional[float] = Field(
+        default=None,
+        description="Fraction of low-confidence OCR words (0-1). Leave null if unmeasured.",
+    )
 
 
 class FullExamGradingResult(BaseModel):
@@ -247,7 +275,31 @@ def calculate_metrics_and_ml_node(state: GradingState):
     """Add metrics and an experimental ML recommendation before TA review."""
     analysis = state.get("detailed_analysis") or {}
     questions = analysis.get("questions", [])
-    enriched_questions = [enrich_question_with_metrics(q) for q in questions]
+
+    # Measure page sharpness from uploaded images if present
+    img_quality = None
+    page_paths = state.get("page_img_paths") or []
+    if page_paths:
+        try:
+            import cv2
+            scores = []
+            for p in page_paths:
+                img = cv2.imread(p, cv2.IMREAD_GRAYSCALE)
+                if img is not None:
+                    var = cv2.Laplacian(img, cv2.CV_64F).var()
+                    scores.append(min(100.0, round((var / 300.0) * 100.0, 2)))
+            if scores:
+                img_quality = round(float(sum(scores) / len(scores)), 2)
+        except Exception:
+            pass
+
+    enriched_questions = []
+    for q in questions:
+        q_copy = dict(q)
+        if img_quality is not None and q_copy.get("imageQualityPct") is None:
+            q_copy["imageQualityPct"] = img_quality
+        enriched_questions.append(enrich_question_with_metrics(q_copy))
+
     return {
         "detailed_analysis": {
             **analysis,
